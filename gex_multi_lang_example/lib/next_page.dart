@@ -6,8 +6,9 @@ class NextPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SafeArea(
+        child: Container(
       child: Scaffold(body: Text('enter_mail'.tr)),
-    );
+    ));
   }
 }
