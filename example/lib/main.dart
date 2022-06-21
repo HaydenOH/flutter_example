@@ -1,14 +1,16 @@
-import 'package:example/controller/app_binding.dart';
-import 'package:example/controller/loanding_page_controller.dart';
+import 'package:example/provider/app_binding.dart';
+import 'package:example/provider/loanding_page_controller.dart';
 import 'package:example/screens/main_page.dart';
 import 'package:example/screens/my_gc_page.dart';
 import 'package:example/screens/social_page.dart';
 import 'package:example/screens/trending_page.dart';
 import 'package:example/styles/global_theme.dart';
 import 'package:example/widgets/bottom_navigation.dart';
+import 'package:example/widgets/theme_changer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'dart:ui' as ui;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,9 +31,9 @@ class MyApp extends StatelessWidget {
       title: 'Get Practice',
       initialBinding: AppBinding(),
       // 다크 라이트 모드 /////
+      themeMode: ThemeMode.system,
       theme: GlobalTheme.lightTheme,
       darkTheme: GlobalTheme.darkTheme,
-      themeMode: ThemeMode.system,
       /////////////////////////
       home: MyHomePage(),
       // getPages: [GetPage(name: "/main", page: () => MainPage())],
@@ -55,27 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
       const Offset(0, 20),
       const Offset(150, 20),
       <Color>[const Color(0xff2a81fd), const Color(0xffed10f7)]);
-  RxBool _isLightMode = false.obs;
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  _saveThemeStatus() async {
-    SharedPreferences pref = await _prefs;
-    pref.setBool('theme', _isLightMode.value);
-  }
-
-  _getThemeStatus() async {
-    final _isLight = _prefs.then((SharedPreferences prefs) {
-      return prefs.getBool('theme') != null ? prefs.getBool('theme') : true;
-    }).obs;
-
-    _isLightMode.value = (await _isLight.value)!;
-
-    Get.changeThemeMode(_isLightMode.value ? ThemeMode.light : ThemeMode.dark);
-  }
-
-  @override
-  void initState() {
-    _getThemeStatus();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,17 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Row(children: [
                 Row(
                   children: [
-                    ObxValue(
-                        (data) => Switch(
-                            value: _isLightMode.value,
-                            onChanged: (val) {
-                              _isLightMode.value = val;
-                              Get.changeThemeMode(_isLightMode.value
-                                  ? ThemeMode.light
-                                  : ThemeMode.dark);
-                              // _saveThemeStatus();
-                            }),
-                        false.obs),
+                    ThemeChanger(),
                     Container(
                       height: 24,
                       width: 24,
@@ -123,7 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 IconButton(
                   onPressed: () {
                     // 페이지 저장시 사용
-                    print("1333");
                   },
                   icon: Icon(Icons.info_outline_rounded),
                 )

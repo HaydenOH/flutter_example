@@ -1,7 +1,7 @@
-import 'package:example/controller/infinity_scroll_controller.dart';
+import 'package:example/provider/infinity_scroll_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:example/controller/app_binding.dart';
+import 'package:example/provider/app_binding.dart';
 import 'package:get/instance_manager.dart';
 
 class MainGameList extends GetView<InfiniteScrollController> {
