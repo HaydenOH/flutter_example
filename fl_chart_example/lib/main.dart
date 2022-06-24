@@ -1,4 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_example/line_chart_sample3.dart';
+import 'package:fl_chart_example/line_chart_sample5.dart';
 import 'package:fl_chart_example/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -81,14 +83,19 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(children: [
         Container(
             child: ElevatedButton(
-          onPressed: () => Get.to(LineChartWidget()),
+          onPressed: () => Get.to(() => const LineChartSample5()),
           child: Text("go linchartbarData "),
         )),
         Container(
             child: ElevatedButton(
-          onPressed: () => Get.to(LineChartWidget()),
+          onPressed: () => Get.to(() => const LineChartWidget()),
           child: Text("go chart"),
-        ))
+        )),
+        Container(
+            child: ElevatedButton(
+          onPressed: () => Get.to(() => const LineChartSample3()),
+          child: Text("sample 3"),
+        )),
       ]),
     );
   }
